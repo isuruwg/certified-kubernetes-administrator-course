@@ -5,7 +5,11 @@ In this section, we will take a look at PODS.
 - POD introduction
 - How to deploy pod?
 
-#### Kubernetes doesn't deploy containers directly on the worker node.
+Kubernetes doesn't deploy containers directly on the worker node.
+
+- A pod is a single instance of an application
+- A pod is the smallest object that you can create in K8S
+
 
   ![pod](../../images/pod.PNG)
   
