@@ -9,8 +9,12 @@ In this section, we will take a look at the below
 
 ## What is a Replica and Why do we need a replication controller?
 
+Replication controller can be used in cases where you only have one pod. In these cases the Replication controller will bring up the pod if the pod fails.
+
   ![rc](../../images/rc.PNG)
   
+Replication controller also helps creating multiple pods for scaling.
+
   ![rc1](../../images/rc1.PNG)
   
 ## Difference between ReplicaSet and Replication Controller
@@ -23,7 +27,7 @@ In this section, we will take a look at the below
   
    ![rc2](../../images/rc2.PNG)
   
-```
+```yaml
     apiVersion: v1
     kind: ReplicationController
     metadata:
@@ -33,7 +37,7 @@ In this section, we will take a look at the below
         type: front-end
     spec:
      template:
-        metadata:
+        metadata: # This part is the same as the pod definition file without apiVersion and kind fields.
           name: myapp-pod
           labels:
             app: myapp
@@ -42,7 +46,7 @@ In this section, we will take a look at the below
          containers:
          - name: nginx-container
            image: nginx
-     replicas: 3
+     replicas: 3 #number of replicas needed
 ```
   - To Create the replication controller
     ```
@@ -64,31 +68,32 @@ In this section, we will take a look at the below
 
    ![rs](../../images/rs.PNG)
 
-```
-    apiVersion: apps/v1
-    kind: ReplicaSet
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  template:
     metadata:
-      name: myapp-replicaset
+      name: myapp-pod
       labels:
         app: myapp
         type: front-end
     spec:
-     template:
-        metadata:
-          name: myapp-pod
-          labels:
-            app: myapp
-            type: front-end
-        spec:
-         containers:
-         - name: nginx-container
-           image: nginx
-     replicas: 3
-     selector:
-       matchLabels:
-        type: front-end
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 3
+  selector: # this is one of the major differences between replication controller and replicaset
+    matchLabels:
+      type: front-end
  ```
-#### ReplicaSet requires a selector definition when compare to Replication Controller.
+
+ReplicaSet requires a selector definition when compared to Replication Controller.
    
   - To Create the replicaset
     ```
