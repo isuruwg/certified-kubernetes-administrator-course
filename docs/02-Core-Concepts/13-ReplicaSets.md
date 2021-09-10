@@ -105,7 +105,7 @@ Replication controller can still have a selector, but it's not required for repl
     ```
     $ kubectl get replicaset
     ```
-  - To list pods that are launch by the replicaset
+  - To list pods that are launched by the replicaset
     ```
     $ kubectl get pods
     ```
@@ -116,47 +116,71 @@ Replication controller can still have a selector, but it's not required for repl
 ### 1.7.1. What is the deal with Labels and Selectors? Why do we label pods and objects in kubernetes?
 
   ![labels](../../images/labels.PNG)
+
+- Replicaset can be also used to monitoring existing pods and deploy new ones if any of them are to fail.
+- Replicaset knows what pods to monitor by using labels.
+
+- Let's say we already have 3 pods of same type created using some other way that we need to monitor with replicaset and keep 3 pods running at all times. Do we still need to fill out hte `template:` section in the replicaset definition? 
+  - Ans: Yes. In case one of the pods were to fail in the future, the replicaset would need the template definition to recreate the pods. 
   
 ## 1.8. How to scale replicaset
 - There are multiple ways to scale replicaset
   - First way is to update the number of replicas in the replicaset-definition.yaml definition file. E.g replicas: 6 and then run 
- ```
-    apiVersion: apps/v1
-    kind: ReplicaSet
+
+
+ ```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicaset
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  template:
     metadata:
-      name: myapp-replicaset
+      name: myapp-pod
       labels:
         app: myapp
         type: front-end
     spec:
-     template:
-        metadata:
-          name: myapp-pod
-          labels:
-            app: myapp
-            type: front-end
-        spec:
-         containers:
-         - name: nginx-container
-           image: nginx
-     replicas: 6
-     selector:
-       matchLabels:
-        type: front-end
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 6
+  selector:
+    matchLabels:
+    type: front-end
 ```
 
   ```
   $ kubectl apply -f replicaset-definition.yaml
   ```
+
   - Second way is to use **`kubectl scale`** command.
   ```
   $ kubectl scale --replicas=6 -f replicaset-definition.yaml
   ```
+
   - Third way is to use **`kubectl scale`** command with type and name
   ```
   $ kubectl scale --replicas=6 replicaset myapp-replicaset
   ```
+
   ![rs2](../../images/rs2.PNG)
+
+# Some useful Replicaset related commands
+
+```bash
+# See list of replicasets created
+kubectl get replicaset
+
+# delete replicaset and underlying PODs
+kubectl delete replicaset myapp-replicaset
+
+# replace or update the replicaset
+kubectl replace -f replicaset-definition.yml
+```
 
 ## 1.9. K8s Reference Docs:
 - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
