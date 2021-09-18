@@ -1,6 +1,18 @@
-# Namespaces
-  - Take me to [Video Tutorial](https://kodekloud.com/topic/namespaces/)
+# 1. Namespaces
+
+Take me to [Video Tutorial](https://kodekloud.com/topic/namespaces/)
   
+# TOC <!-- omit in toc -->
+
+- [1. Namespaces](#1-namespaces)
+- [2. Introduction](#2-introduction)
+- [3. Creating pods in a namespace](#3-creating-pods-in-a-namespace)
+- [4. Accessing services in a different namespace](#4-accessing-services-in-a-different-namespace)
+- [5. Creating new namespaces](#5-creating-new-namespaces)
+- [6. Switching between namespaces](#6-switching-between-namespaces)
+- [7. Resource allocation for namespaces](#7-resource-allocation-for-namespaces)
+
+# 2. Introduction
 In this section, we will take a look at **`Namespaces`**
 
 So far in this course we have created **`Objects`** such as **`PODs`**, **`Deployments`** and **`Services`** in our cluster. Whatever we have been doing we have been doing in a **`NAMESPACE`**.
@@ -22,6 +34,8 @@ So far in this course we have created **`Objects`** such as **`PODs`**, **`Deplo
   ```
   ![ns8](../../images/ns8.PNG)
   
+# 3. Creating pods in a namespace
+
 - Here we have a pod definition file, when we create a pod with pod-definition file, the pod is created in the default namespace.
 
 ```
@@ -63,7 +77,17 @@ spec:
  ```
   
   ![ns10](../../images/ns10.PNG)
+
+# 4. Accessing services in a different namespace
+
+You can access services in a different namespace by doing: 
+
+```yaml
+service-name.namespace.svc.cluster.local
+```
   
+# 5. Creating new namespaces
+
 - To create a new namespace, create a namespace definition as shown below and then run **`kubectl create`**
 ```
 apiVersion: v1
@@ -81,6 +105,8 @@ metadata:
   ```
   ![ns11](../../images/ns11.PNG)
   
+# 6. Switching between namespaces
+
 - By default, we will be in a **`default`** namespace. To switch to a particular namespace permenently run the below command.
   ```
   $ kubectl config set-context $(kubectl config current-context) --namespace=dev
@@ -91,6 +117,8 @@ metadata:
   ```
   ![ns12](../../images/ns12.PNG)
   
+# 7. Resource allocation for namespaces
+
 - To limit resources in a namespace, create a resource quota. To create one start with **`ResourceQuota`** definition file.
 ```
 apiVersion: v1

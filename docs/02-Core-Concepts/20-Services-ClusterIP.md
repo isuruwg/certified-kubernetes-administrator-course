@@ -14,7 +14,8 @@ In this section we will take a look at **`services - ClusterIP`** in kubernetes
   ![srvc2](../../images/srvc2.PNG)
   
 #### To create a service of type ClusterIP
-```
+
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -22,8 +23,8 @@ metadata:
 spec:
  types: ClusterIP
  ports:
- - targetPort: 80
-   port: 80
+ - targetPort: 80 # port where back-end is exposed
+   port: 80 # port where service is exposed
  selector:
    app: myapp
    type: back-end
