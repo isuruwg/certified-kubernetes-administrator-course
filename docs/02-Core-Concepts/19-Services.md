@@ -112,11 +112,17 @@ When Pods are distributed across multiple nodes: In this case Kubernetes automat
 ### 1.3.2. ClusterIP
 
 - In this case the service creates a **`Virtual IP`** inside the cluster to enable communication between different services such as a set of frontend servers to a set of backend servers.
-    
+
+- View [20-services-ClusterIP](20-Services-ClusterIP.md) for more info    
+
 ### 1.3.3. LoadBalancer
 
 - Where the service provisions a **`loadbalancer`** for our application in supported cloud providers.
-    
+
+![load-balancer](../../images/Load_balancer.png)
+
+
+
 # 2. K8s Reference Docs:
 - https://kubernetes.io/docs/concepts/services-networking/service/
 - https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/
