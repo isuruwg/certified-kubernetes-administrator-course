@@ -16,8 +16,11 @@ Solutions to the Practice Test - Taints and Tolerations
 
   <details>
 
-  ```
+  ```bash
   $ kubectl describe node node01
+
+  # or you can do;
+  kubectl describe node node01 | grep -i taint
   ```
   </details>
 

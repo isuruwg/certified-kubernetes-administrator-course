@@ -1,15 +1,14 @@
-# Labels and Selectors
+# 1. Labels and Selectors
   - Take me to [Video Tutorial](https://kodekloud.com/topic/labels-and-selectors/)
   
 In this section, we will take a look at **`Labels and Selectors`**
 
-#### Labels and Selectors are standard methods to group things together.
-  
-#### Labels are properties attached to each item.
+- Labels and Selectors are standard methods to group things together
+- Labels are properties attached to each item.
 
   ![labels-ckc](../../images/labels-ckc.PNG)
   
-#### Selectors help you to filter these items
+- Selectors help you to filter these items
  
   ![sl](../../images/sl.PNG)
   
@@ -19,7 +18,7 @@ How are labels and selectors are used in kubernetes?
   ![ls](../../images/ls.PNG)
   
 How do you specify labels?
-   ```
+   ```yaml
     apiVersion: v1
     kind: Pod
     metadata:
@@ -42,23 +41,23 @@ $ kubectl get pods --selector app=App1
 ```
 
 Kubernetes uses labels to connect different objects together
-   ```
+   ```yaml
     apiVersion: apps/v1
     kind: ReplicaSet
     metadata:
       name: simple-webapp
-      labels:
-        app: App1
+      labels: # these are just labels for the replicaset
+        app: App1 
         function: Front-end
     spec:
      replicas: 3
-     selector:
+     selector: # these are the labels used to select pods for this replicaset
        matchLabels:
         app: App1
     template:
       metadata:
-        labels:
-          app: App1
+        labels: # these are the labels configured on the pods
+          app: App1 
           function: Front-end
       spec:
         containers:
@@ -70,24 +69,39 @@ Kubernetes uses labels to connect different objects together
 
 For services
  
-      ```
-      apiVersion: v1
-      kind: Service
-      metadata:
-       name: my-service
-      spec:
-       selector:
-         app: App1
-       ports:
-       - protocol: TCP
-         port: 80
-         targetPort: 9376 
-       ```
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: App1
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376 
+```
+
   ![lrs1](../../images/lrs1.PNG)
+
+## 1.1. Some useful commands related to labels and selectors
+
+```bash
+# List pods with labels
+kubectl get pods --show-labels
+
+# filter for specific labels, (env=dev in this case)
+kubectl get pods -l env=dev
+kubectl get pods -l env=prod,tier=frontend # filter for multiple labels
+
+# Count number of items
+kubectl get pods -l env=dev --no-headers | wc -l
+```
   
-## Annotations
+# 2. Annotations
 - While labels and selectors are used to group objects, annotations are used to record other details for informative purpose.
-    ```
+    ```yaml
     apiVersion: apps/v1
     kind: ReplicaSet
     metadata:

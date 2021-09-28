@@ -4,8 +4,8 @@
 In this section, we will talk about "Node Affinity" feature in kubernetes.
 
 #### The primary feature of Node Affinity is to ensure that the pods are hosted on particular nodes.
-- With **`Node Selectors`** we cannot provide the advance expressions.
-  ```
+- With **`Node Selectors`** we cannot provide advanced expressions.
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:
@@ -17,8 +17,10 @@ In this section, we will talk about "Node Affinity" feature in kubernetes.
    nodeSelector:
     size: Large
   ```
+
   ![ns-old](../../images/ns-old.PNG)
-  ```
+
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:
@@ -40,7 +42,7 @@ In this section, we will talk about "Node Affinity" feature in kubernetes.
   ```
   ![na](../../images/na.PNG)
   
-  ```
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:
@@ -61,7 +63,7 @@ In this section, we will talk about "Node Affinity" feature in kubernetes.
   ```
   ![na1](../../images/na1.PNG)
   
-  ```
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:
