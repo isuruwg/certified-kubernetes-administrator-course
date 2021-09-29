@@ -7,8 +7,10 @@ Solutions to practice test - node affinity
   
   <details>
 
-  ```
+  ```bash
   $ kubectl describe node node01
+  # Or you can use:
+  kubectl get nodes node01 --show-labels
   ```
   </details>
 
