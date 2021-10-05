@@ -65,7 +65,7 @@ Solutions to practice test - node affinity
   
   <details>
 
-  ```
+  ```yaml
   affinity:
       nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

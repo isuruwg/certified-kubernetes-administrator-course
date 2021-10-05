@@ -18,7 +18,7 @@ In this section, we will take a look at DaemonSets.
 ## DaemonSets - Definition
 - Creating a DaemonSet is similar to the ReplicaSet creation process.
 - For DaemonSets, we start with apiVersion, kind as **`DaemonSets`** instead of **`ReplicaSet`**, metadata and spec. 
-  ```
+  ```yaml
   apiVersion: apps/v1
   kind: Replicaset
   metadata:
@@ -39,7 +39,7 @@ In this section, we will take a look at DaemonSets.
           image: monitoring-agent
   ```
   
-  ```
+  ```yaml
   apiVersion: apps/v1
   kind: DaemonSet
   metadata:
@@ -78,6 +78,8 @@ In this section, we will take a look at DaemonSets.
   ![ds1](../../images/ds1.PNG)
   
 ## How DaemonSets Works
+
+- Until K8S v1.12 DaemonSets used the node name field to schedule pods in every node. But after V1.12, node affinity and default scheduler is used
 
   ![ds2](../../images/ds2.PNG)
 
