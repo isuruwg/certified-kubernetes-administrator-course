@@ -18,7 +18,7 @@ In this section, we will take a look at Static Pods
   ![sp1](../../images/sp1.PNG)
 
 ## View the static pods
-- To view the static pods
+- To view the static pods (We have to use the docker command since in a situation where only the kubelet service is configured, there's no `kube-apiserver` in this case and therefore no `kubectl`)
   ```
   $ docker ps
   ```
@@ -27,6 +27,8 @@ In this section, we will take a look at Static Pods
 #### The kubelet can create both kinds of pods - the static pods and the ones from the api server at the same time.
 
   ![sp3](../../images/sp3.PNG)
+
+in this case, the `kube-apiserver` will still be aware of the static pods. So you can use `kubectl get pods` to view static pods too. When kubelet creates a static pod, it creates a **read only** mirror object in the `kube-apiserver`. The static pod name will also contain the name of the node when you view it using `kubectl` command. 
 
 ## Static Pods - Use Case
 

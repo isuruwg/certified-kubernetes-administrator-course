@@ -94,6 +94,15 @@ Solutions to practice test daemonsets
   ```
   </details>
 
+  Or you can use the following method: 
+
+  ```bash
+  kubectl create deployment elasticsearch --image=k8s.gcr.io/fluentd-elasticsearch:1.20 --dry-run=client --namespace=kube-system -o yaml > daemonset.yaml
+
+  # Then open this daemonset.yaml file and rename Deployment to DaemonSet, delete replicas, strategy and status fields and deploy using;
+  kubectl apply -f daemonset.yaml
+  ```
+
 
 
 
