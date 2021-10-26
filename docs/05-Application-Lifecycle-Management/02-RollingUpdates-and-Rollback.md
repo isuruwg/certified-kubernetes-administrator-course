@@ -59,11 +59,13 @@ In this section, we will take a look at rolling updates and rollback in a deploy
   $ kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1
   ```
   ![ka](../../images/ka.PNG)
-  
+ 
 ## Recreate vs RollingUpdate
   
   ![rcrl](../../images/rcrl.PNG)
-  
+
+As you can see in the image above, the recreate strategy scales down the replicaset to 0 and then scales it up to 5 whereas the rolling update strategy scales up another replicaset while scaling down an existing replicaset one at a time.
+
 ## Upgrades
 
   ![up](../../images/up.PNG)
@@ -73,17 +75,18 @@ In this section, we will take a look at rolling updates and rollback in a deploy
   ![rb](../../images/rb.PNG)
   
 - To undo a change
-  ```
+  ```bash
   $ kubectl rollout undo deployment/myapp-deployment
   ```
   
 ## kubectl create
 - To create a deployment
-  ```
+  ```bash
   $ kubectl create deployment nginx --image=nginx
   ```
 ## Summarize kubectl commands
-```
+
+```bash
 $ kubectl create -f deployment-definition.yaml
 $ kubectl get deployments
 $ kubectl apply -f deployment-definition.yaml
