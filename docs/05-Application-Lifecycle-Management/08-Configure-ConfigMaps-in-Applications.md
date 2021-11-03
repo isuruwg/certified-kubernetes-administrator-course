@@ -57,10 +57,11 @@ $ kubectl create -f config-map.yaml
 - To view configMaps
   
   ```bash
-  $ kubectl get configmaps (or)
+  $ kubectl get configmaps 
+  # or
   $ kubectl get cm
   ```
-  
+
 - To describe configmaps
   
   ```bash
@@ -71,7 +72,7 @@ $ kubectl create -f config-map.yaml
    
  ## 2.4. ConfigMap in Pods
  - Inject configmap in pod
-   ```
+   ```yaml
    apiVersion: v1
    kind: Pod
    metadata:
@@ -86,7 +87,7 @@ $ kubectl create -f config-map.yaml
       - configMapRef:
           name: app-config
    ```
-   ```
+   ```yaml
    apiVersion: v1
    kind: ConfigMap
    metadata:
@@ -95,7 +96,7 @@ $ kubectl create -f config-map.yaml
      APP_COLOR: blue
      APP_MODE: prod
    ```
-   ```
+   ```bash
    $ kubectl create -f pod-definition.yaml
    ```
   
