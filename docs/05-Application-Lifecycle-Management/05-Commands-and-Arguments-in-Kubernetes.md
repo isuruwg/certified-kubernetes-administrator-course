@@ -5,7 +5,7 @@ In this section, we will take a look at commands and arguments in kubernetes
 
 - Anything that is appended to the docker run command will go into the **`args`** property of the pod definition file in the form of an array.
 - The command field corresponds to the entrypoint instruction in the Dockerfile so to summarize there are 2 fields that correspond to 2 instructions in the Dockerfile.
-  ```
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:
