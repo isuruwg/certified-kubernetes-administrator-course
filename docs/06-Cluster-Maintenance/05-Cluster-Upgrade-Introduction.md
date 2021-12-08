@@ -3,6 +3,8 @@
   
 #### Is it mandatory for all of the kubernetes components to have the same versions?
 - No, The components can be at different release versions.
+- However, since the kube-apiserver talks to all the other components, kubelet, kube-controller-manager, kube-scheduler, cloud-controller-manager should be not be newer than the kube-apiserver version [[ref](https://kubernetes.io/releases/version-skew-policy/)]
+- kubectl is supported within one minor version (older or newer) of kube-apiserver.
   
 #### At any time, kubernetes supports only up to the recent 3 minor versions
 - The recommended approach is to upgrade one minor version at a time.
@@ -46,7 +48,7 @@
   
   ![kubeu](../../images/kubeu.PNG)
   
-- Upgrade 'kubelet' on the master node
+- Upgrade 'kubelet' on the master node (kubeadm does not upgrade kubelet)
   ```
   $ apt-get upgrade kubelet=1.12.0-00
   ```
