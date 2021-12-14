@@ -28,7 +28,9 @@ In this section, we will take a look at rolling updates and rollback in a deploy
   
 ## kubectl apply
 - To update a deployment, edit the deployment and make necessary changes and save it. Then run the below command.
-  ```
+
+
+  ```yaml
   apiVersion: apps/v1
   kind: Deployment
   metadata:
