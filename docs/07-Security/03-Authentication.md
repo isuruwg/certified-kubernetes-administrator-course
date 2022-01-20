@@ -53,6 +53,8 @@ In this section, we will take a look at authentication in a kubernetes cluster
  ![note](../../images/note.PNG)
   
   
+More info at: [Udemy course](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296208#overview)
+
 #### K8s Reference Docs
 - https://kubernetes.io/docs/reference/access-authn-authz/authentication/ 
   
