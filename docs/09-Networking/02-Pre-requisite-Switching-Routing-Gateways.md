@@ -1,10 +1,15 @@
-# Pre-requisite Switching Routing Gateways
+# Pre-requisite Switching Routing Gateways <!-- omit in toc -->
 
   - Take me to [Lecture](https://kodekloud.com/topic/pre-requisite-switching-routing-gateways-cni-in-kubernetes/)
 
 In this section, we will take a look at **Switching, Routing and Gateways**
 
-## Switching
+- [1. Switching](#1-switching)
+- [2. Routing](#2-routing)
+- [3. Gateways](#3-gateways)
+  - [Making a linux host act as a router](#making-a-linux-host-act-as-a-router)
+
+# 1. Switching
 
 - To see the interface on the host system
 
@@ -19,7 +24,7 @@ $ ip addr
 
 ![net-14](../../images/net14.PNG)
 
-## Routing
+# 2. Routing
 
 - To see the existing routing table on the host system.
 
@@ -40,12 +45,31 @@ $ ip route add 192.168.1.0/24 via 192.168.2.1
 
 ![net-15](../../images/net15.PNG)
 
-## Gateways
+# 3. Gateways
 
 - To add a default route.
 ```
 $ ip route add default via 192.168.2.1
 ```
+
+## Making a linux host act as a router
+
+![route](../../images/route.png)
+
+Let's say we have 3 machines, A, B, C and want B to act as a router. As shown in the picture above, B would be connected to both networks while A and C are in separate networks. 
+
+In order to fascilitate communication between A and C, we'll need to do the following:
+
+- On A:
+  - `ip route add 192.168.2.0/24 via 192.168.1.6`
+
+- On B:
+  - Allow forwarding packets from one interface to another: 
+    - `echo 1 > /proc/sys/net/ipv4/ip_forward`
+    - To make this value permanent across reboots you need to modify `/etc/sysctl.conf` file line: `net.ipv4.ip_forward = 1`
+
+- On C: 
+  - `ip route add 192.168.1.0/24 via 192.168.2.6`
 
 - To check the IP forwarding is enabled on the host.
 ```

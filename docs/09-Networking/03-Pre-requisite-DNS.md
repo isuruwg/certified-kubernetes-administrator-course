@@ -1,10 +1,20 @@
-# Pre-requisite DNS
+# Pre-requisite DNS <!-- omit in toc -->
 
   - Take me to [Lecture](https://kodekloud.com/topic/prerequsite-dns/)
 
 In this section, we will take a look at **DNS in the Linux**
 
-## Name Resolution 
+- [1. Name Resolution](#1-name-resolution)
+- [2. DNS](#2-dns)
+  - [2.1. Domain Names](#21-domain-names)
+  - [2.2. Search Domain](#22-search-domain)
+  - [2.3. Record Types](#23-record-types)
+- [3. Networking Tools](#3-networking-tools)
+  - [3.1. nslookup](#31-nslookup)
+  - [3.2. dig](#32-dig)
+
+
+## 1. Name Resolution 
 
 - With help of the `ping` command. Checking the reachability of the IP Addr on the Network.
 
@@ -44,7 +54,7 @@ $ ssh web
 $ curl http://web
 ```
 
-## DNS
+## 2. DNS
 
 - Every host has a DNS resolution configuration file at `/etc/resolv.conf`.
 
@@ -56,13 +66,17 @@ options edns0
 
 - To change the order of dns resolution, we need to do changes into the `/etc/nsswitch.conf` file.
 
-```
+```bash
 $ cat /etc/nsswitch.conf
 
 hosts:          files dns
 networks:       files
 
 ```
+
+`files` in the above refers to the dns hosts file. `dns` refers to the dns server.
+
+![dns](../../images/dns.png)
 
 - If it fails in some conditions.
 
@@ -88,23 +102,48 @@ PING github.com (140.82.121.3) 56(84) bytes of data.
 
 ```
 
-## Domain Names
+And since we already have a dns server configured, instead of adding `8.8.8.8` (or other dns server) to individual `/etc/resolv.conf` file, we can add it to our dns server instead.
+
+![dns2](../../images/dns2.png)
+
+### 2.1. Domain Names
 
 ![net-8](../../images/net8.PNG)
 
-## Search Domain
+when trying to find the ip address for an address such as `www.google.com` the organizational dns first goes to the Root DNS which then goes to `.com` DNS and then goes to `Google DNS`. The organizational dns can choose to cache this result for a period of time (eg 30 seconds, 1 minute) so that it doesn't have to go through this whole process all the time. 
+
+![dnslookup](../../images/dnslookup.png)
+
+### 2.2. Search Domain
+
+Let's say our company has several subdomains such as `nfs`, `web`, `mail`, etc. In order for an outside party to reach these we can add the corresponding addresses to our company dns server as shown in the image below. (i.e. an outside dns server would come all the way to our company dns server using the `mycompany.com` address)
 
 ![net-9](../../images/net9.PNG)
 
-## Record Types
+But since we changed our internal dns, we can no longer call our internal websites using just `web`, `nfs`, `drive` etc. addresses. We need to specify the full path even when trying to reach from our local network. (i.e. we need to say `web.mycompany.com` instead of just saying `web`).
+
+In order to still have this functionality, we can add a `search` domain to our `/etc/resolv.conf` file. This way we can reach `web.mycompany.com` using both, `web` and `web.mycompany.com` addresses. You can also provide additional search queries;
+
+```bash
+search    mycompany.com prod.mycompany.com
+```
+
+
+![search domain](../../images/searchdomain.png)
+
+### 2.3. Record Types
+
+`A` records: ip to host name
+`AAAA` records: ipv6 to host name
+`CNAME` records: name to name mappings
 
 ![net-10](../../images/net10.PNG)
 
-## Networking Tools
+## 3. Networking Tools
 
 - Useful networking tools to test dns name resolution.
 
-#### nslookup 
+### 3.1. nslookup 
 
 ```
 $ nslookup www.google.com
@@ -117,7 +156,9 @@ Address: 172.217.18.4
 Name:   www.google.com
 ```
 
-#### dig
+Note: `nslookup` does not consider entries in the local `/etc/hosts` file.
+
+### 3.2. dig
 
 ```
 $ dig www.google.com

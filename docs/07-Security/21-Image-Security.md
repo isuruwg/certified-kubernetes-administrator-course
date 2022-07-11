@@ -33,7 +33,7 @@ In this section we will take a look at image security
   ![prvr](../../images/prvr.PNG)
   
 - To pass the credentials to the docker untaged on the worker node for that we first create a secret object with credentials in it.
-  ```
+  ```bash
   $ kubectl create secret docker-registry regcred \
     --docker-server=private-registry.io \ 
     --docker-username=registry-user \
@@ -41,7 +41,7 @@ In this section we will take a look at image security
     --docker-email=registry-user@org.com
   ```
 - We then specify the secret inside our pod definition file under the imagePullSecret section 
-  ```
+  ```yaml
   apiVersion: v1
   kind: Pod
   metadata:

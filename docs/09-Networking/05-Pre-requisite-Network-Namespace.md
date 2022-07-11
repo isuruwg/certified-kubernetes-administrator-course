@@ -18,6 +18,8 @@ $ ps aux
 
 ```
 
+![processns](../../images/processns.png)
+
 ## Network Namespace
 
 ```
@@ -27,6 +29,8 @@ $ route
 ```
 $ arp
 ```
+
+![networkns](../../images/networkns.png)
 
 ## Create Network Namespace
 
@@ -86,6 +90,8 @@ $ ip netns exec blue arp
 Address                  HWtype  HWaddress           Flags Mask            Iface
 ```
 
+![arpns](../../images/arpns.png)
+
 > On the host 
 ```
 $ route
@@ -130,6 +136,8 @@ $ ip -n red link set veth-red up
 $ ip -n blue link set veth-blue up
 ```
 
+![ns](../../images/hostns.png)
+
 - Check the reachability 
 ```
 $ ip netns exec red ping 192.168.15.2
@@ -162,6 +170,8 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 172.17.0.74              ether   02:42:ac:11:00:4a   C                     ens3
 172.17.0.75              ether   02:42:ac:11:00:4b   C                     ens3
 ```
+
+![arp](../../images/arp.png)
 
 ## Linux Bridge
 

@@ -20,7 +20,7 @@ In this section, we will take a look at RBAC
   $ kubectl create -f devuser-developer-binding.yaml
   ```
 - Also note that the roles and role bindings fall under the scope of namespace.
-  ```
+  ```yaml
   apiVersion: rbac.authorization.k8s.io/v1
   kind: Role
   metadata:
@@ -33,7 +33,7 @@ In this section, we will take a look at RBAC
     resources: ["ConfigMap"]
     verbs: ["create"]
   ```
-  ```
+  ```yaml
   apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
@@ -94,7 +94,7 @@ In this section, we will take a look at RBAC
   
 ## Resource Names
 - Note on resource names we just saw how you can provide access to users for resources like pods within the namespace.
-  ```
+  ```yaml
   apiVersion: rbac.authorization.k8s.io/v1
   kind: Role
   metadata:
