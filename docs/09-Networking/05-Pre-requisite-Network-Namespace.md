@@ -155,7 +155,7 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 
 ```
 
-- Delete the link.
+- Delete the link. (When you delete a link on one end, the link on the other end gets deleted automatically since they are a pair.)
 ```
 $ ip -n red link del veth-red
 ```
@@ -196,12 +196,15 @@ $ ip link
 ```
 $ ip link set dev v-net-0 up
 ```
-- To connect network namespace to the bridge. Creating a virtual cabel
+- To connect network namespace to the bridge. Creating a virtual cable
 ```
 $ ip link add veth-red type veth peer name veth-red-br
 
 $ ip link add veth-blue type veth peer name veth-blue-br
 ```
+
+![linuxbridge](../../images/linuxbridge.png)
+
 - Set with the network namespaces
 ```
 $ ip link set veth-red netns red
@@ -212,6 +215,8 @@ $ ip link set veth-red-br master v-net-0
 
 $ ip link set veth-blue-br master v-net-0
 ```
+
+![lbridege2](../../images/lbridge2.png)
 - To add an IP address
 ```
 $ ip -n red addr add 192.168.15.1/24 dev veth-red
@@ -234,10 +239,15 @@ $ ip link set dev veth-red-br up
 $ ip link set dev veth-blue-br up
 ```
 
+
 > On the host
 ```
 $ ping 192.168.15.1
 ```
+
+![lbridge3](../../images/lbridge3.png)
+
+Please watch [8:57 to the end of this video](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/14296142#overview) for more info about below commands.
 
 > On the ns
 ```
@@ -275,5 +285,15 @@ $ iptables -t nat -A PREROUTING --dport 80 --to-destination 192.168.15.2:80 -j D
 ```
 $ iptables -nvL -t nat
 ```
+
+# Troubleshooting
+
+While testing the Network Namespaces, if you come across issues where you can't ping one namespace from the other, make sure you set the NETMASK while setting IP Address. ie: 192.168.1.10/24
+
+```bash
+ip -n red addr add 192.168.1.10/24 dev veth-red
+```
+
+Another thing to check is FirewallD/IP Table rules. Either add rules to IP Tables to allow traffic from one namespace to another. Or disable IP Tables all together (Only in a learning environment).
 
 

@@ -1,10 +1,31 @@
-# Pre-requisite Docker Networking
+# Pre-requisite Docker Networking <!-- omit in toc -->
 
   - Take me to [Lecture](https://kodekloud.com/topic/prerequsite-docker-networking/)
 
 In this section, we will take a look at **Docker Networking**
 
-## None Network
+# Contents <!-- omit in toc -->
+
+- [1. Networks](#1-networks)
+  - [1.1. None Network](#11-none-network)
+  - [1.2. Host Network](#12-host-network)
+  - [1.3. Bridge Network](#13-bridge-network)
+  - [1.4. List the Docker Network](#14-list-the-docker-network)
+  - [1.5. To view the Network Device on the Host](#15-to-view-the-network-device-on-the-host)
+  - [1.6. To view the IP Addr of the interface docker0](#16-to-view-the-ip-addr-of-the-interface-docker0)
+  - [1.7. Run the command to create a Docker Container](#17-run-the-command-to-create-a-docker-container)
+  - [1.8. To list the Network Namespace](#18-to-list-the-network-namespace)
+  - [1.9. Port Mapping](#19-port-mapping)
+  - [1.10. List the Iptables rules](#110-list-the-iptables-rules)
+- [2. References docs](#2-references-docs)
+
+# 1. Networks
+
+![dockernet](../../images/dockernet1.png)
+
+The type `bridge` on the `docker network ls` output refers to the name `docker0` on the host.
+
+## 1.1. None Network
 
 - Running docker container with `none` network
 
@@ -12,7 +33,7 @@ In this section, we will take a look at **Docker Networking**
 $ docker run --network none nginx
 ```
 
-## Host Network
+## 1.2. Host Network
 
 - Running docker container with `host` network
 
@@ -20,7 +41,7 @@ $ docker run --network none nginx
 $ docker run --network host nginx
 ```
 
-## Bridge Network
+## 1.3. Bridge Network
 
 - Running docker container with `bridge` network
 
@@ -28,7 +49,7 @@ $ docker run --network host nginx
 $ docker run --network bridge nginx
 ```
 
-## List the Docker Network
+## 1.4. List the Docker Network
 
 ```
 $ docker network ls
@@ -39,7 +60,7 @@ a4b19b17d2c5        none                null                local
 
 ```
 
-## To view the Network Device on the Host  
+## 1.5. To view the Network Device on the Host  
 
 ```
 $ ip link
@@ -55,7 +76,7 @@ $ ip link show docker0
 $ ip link add docker0 type bridge
 ```
 
-## To view the IP Addr of the interface docker0
+## 1.6. To view the IP Addr of the interface docker0
 
 ```
 $ ip addr
@@ -67,13 +88,15 @@ $ ip addr show docker0
        valid_lft forever preferred_lft forever
 ```
 
-## Run the command to create a Docker Container
+## 1.7. Run the command to create a Docker Container
 
 ```
 $ docker run nginx
 ```
 
-## To list the Network Namespace
+## 1.8. To list the Network Namespace
+
+**Note**: `ip netns` will not show the docker namespaces by default. TODO: the lecture mentions some resources to troubleshoot this.
 
 ```
 $ ip netns
@@ -111,7 +134,13 @@ $ ip -n 04acb487a641 addr
        valid_lft forever preferred_lft forever
 ```
 
-## Port Mapping
+Every time a new container is created docker creates a namespace, creates a pair of interfaces, and attaches one end to the container and another end to the bridge network.
+
+The interface pairs can be identified using their numbers. Odd and even numbers create a pair. eg: `if7` and `if8` are a pair.
+
+![docker network](../../images/docker-net1.png)
+
+## 1.9. Port Mapping
 
 - Creating a docker container.
 
@@ -143,6 +172,9 @@ $ docker run -itd --name nginx -p 8080:80 nginx
 e7387bbb2e2b6cc1d2096a080445a6b83f2faeb30be74c41741fe7891402f6b6
 ```
 
+![docker port mapping](../../images/docker-portmap.png)
+
+
 - Inspecting docker container to view the assgined ports.
 
 ```
@@ -170,6 +202,8 @@ Server: nginx/1.19.2
 
 - Configuring **iptables nat** rules
 
+Following is how we would configure port mapping:
+
 ```
 $ iptables \
          -t nat \
@@ -178,6 +212,8 @@ $ iptables \
          --dport 8080 \
          --to-destination 80
 ```
+
+Docker does it the same way for mapping ports:
 
 ```
 $ iptables \
@@ -188,7 +224,7 @@ $ iptables \
       --to-destination 172.18.0.6:80
 ```
 
-## List the Iptables rules
+## 1.10. List the Iptables rules
 
 ```
 $ iptables -nvL -t nat
@@ -197,7 +233,7 @@ $ iptables -nvL -t nat
 
 
 
-#### References docs
+# 2. References docs
 
 - https://docs.docker.com/network/
 - https://linux.die.net/man/8/iptables
